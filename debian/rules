@@ -343,7 +343,7 @@ check-no-old-llvm:
 
 debian/dh_auto_configure.stamp: debian/bootstrap.toml check-no-old-llvm
 	# fail the build if the vendored sources info is out-of-date
-	CARGO_VENDOR_DIR=$(CURDIR)/vendor /usr/share/cargo/bin/dh-cargo-vendored-sources
+	CARGO_NET_OFFLINE=true CARGO_BIN="$(RUST_BOOTSTRAP_DIR)/bin/cargo" CARGO_VENDOR_DIR=$(CURDIR)/vendor debian/dh-cargo-vendored-sources
 	# fail the build if we accidentally vendored openssl, indicates we pulled in unnecessary dependencies
 	test ! -e vendor/openssl-src-*
 	# fail the build if our version contains ~exp and we are not releasing to experimental
